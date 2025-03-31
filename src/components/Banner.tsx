@@ -19,17 +19,16 @@ const Banner: React.FC = () => {
     fetch(`https://music-langchain-ebbd399f0b6a.herokuapp.com/search?q=${encodeURIComponent(query)}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log('🎶 Resultado da API:', data);
-        if (Array.isArray(data.results)) {
-          setResults(data.results.slice(0, 16));
-          setShowResults(true);
-        } else {
-          console.error("Formato inesperado:", data);
-          setResults([]);
-          setShowResults(false);
-        }
+        console.log('🎶 Resultado:', data);
+        setResults(data.results || []);
+        setShowResults(true);
       })
-    };      
+      .catch((err) => {
+        console.error('Erro ao buscar:', err);
+        setResults([]);
+        setShowResults(false);
+      });
+  };
 
   return (
     <>
