@@ -11,6 +11,7 @@ interface Video {
 const Banner: React.FC = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Video[]>([]);
+  const [showResults, setShowResults] = useState(false);
 
   const handleSearch = () => {
     if (!query.trim()) return;
@@ -20,61 +21,84 @@ const Banner: React.FC = () => {
       .then((data) => {
         console.log('🎶 Resultado:', data);
         setResults(data.results || []);
+        setShowResults(true);
       })
       .catch((err) => {
         console.error('Erro ao buscar:', err);
         setResults([]);
+        setShowResults(false);
       });
   };
 
   return (
-    <div className="banner bg-dark text-white py-5">
-      <div className="container">
-        <h1 className="fw-bold text-center mb-4">Busque sua música favorita</h1>
-        <div className="input-group mb-4 justify-content-center">
-          <input
-            type="text"
-            className="form-control w-50"
-            placeholder="Digite aqui sua busca..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          />
-          <button className="btn btn-primary" onClick={handleSearch}>
-            Buscar
-          </button>
-        </div>
+    <>
+      {/* Banner com input */}
+      <div className="banner bg-dark text-white py-5">
+        <div className="container">
+          <h1 className="fw-bold text-center mb-4">Busque sua música favorita</h1>
 
-        {results.length > 0 && (
-          <>
-            <h3 className="text-white mb-4">Resultados encontrados:</h3>
-            <div className="row g-4">
-              {results.map((video, index) => (
-                <div key={index} className="col-md-6 col-lg-4">
-                  <div className="card h-100 shadow-sm">
-                    {video.thumbnail && (
-                      <img src={video.thumbnail} className="card-img-top" alt={video.title} />
-                    )}
-                    <div className="card-body d-flex flex-column">
-                      <h5 className="card-title">{video.title}</h5>
-                      <p className="card-text text-muted">Canal: <strong>{video.channel}</strong></p>
-                      <a
-                        href={video.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-outline-primary mt-auto"
-                      >
-                        Assistir no YouTube
-                      </a>
+          {/* Input centralizado e responsivo */}
+          <div className="d-flex justify-content-center">
+            <div className="input-group" style={{ maxWidth: '600px', width: '100%' }}>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Digite aqui sua busca..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+              <button className="btn btn-primary" onClick={handleSearch}>
+                Buscar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Resultados fora do banner */}
+      {showResults && (
+        <div className="container my-5">
+          {results.length > 0 ? (
+            <>
+              <h3 className="text-center mb-4">Resultados encontrados:</h3>
+              <div className="row g-4">
+                {results.map((video, index) => (
+                  <div key={index} className="col-sm-6 col-md-4 col-lg-3">
+                    <div className="card h-100 shadow-sm">
+                      {video.thumbnail && (
+                        <img
+                          src={video.thumbnail}
+                          className="card-img-top"
+                          alt={video.title}
+                          style={{ height: '180px', objectFit: 'cover' }}
+                        />
+                      )}
+                      <div className="card-body d-flex flex-column">
+                        <h6 className="card-title">{video.title}</h6>
+                        <p className="card-text text-muted">
+                          Canal: <strong>{video.channel}</strong>
+                        </p>
+                        <a
+                          href={video.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-outline-primary btn-sm mt-auto"
+                        >
+                          Assistir no YouTube
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="text-center">Nenhum resultado encontrado.</p>
+          )}
+        </div>
+      )}
+    </>
   );
 };
 
