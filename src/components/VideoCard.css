@@ -1,0 +1,13 @@
+/* src/components/VideoCard.css */
+.video-card {
+    max-width: 100%;
+    margin-bottom: 20px;
+    border: none;
+  }
+  
+  .video-card .card-img-top {
+    border-radius: 8px;
+    height: 180px;
+    object-fit: cover;
+  }
+  
