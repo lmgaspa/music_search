@@ -11,7 +11,9 @@ const App: React.FC = () => {
       <main>
         <section className="section text-center py-2">
           <h2>Por que usar nosso buscador?</h2>
-          <p className="lead mt-3">Com tecnologia LangChain e integração com YouTube, você encontra músicas de forma inteligente, rápida e divertida.</p>
+          <p className="lead mt-3">
+            Com tecnologia LangChain e integração com YouTube, você encontra músicas de forma inteligente, rápida e divertida.
+          </p>
           <p>Powered by °Simple Software. 2025</p>
         </section>
 

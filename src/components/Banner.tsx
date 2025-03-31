@@ -18,7 +18,6 @@ const Banner: React.FC = () => {
         console.error('Erro ao buscar:', err);
       });
   };
-  
 
   return (
     <div className="banner">
