@@ -20,7 +20,7 @@ const Banner: React.FC = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log('🎶 Resultado:', data);
-        setResults(data.results || []);
+        setResults((data.results || []).slice(0, 16));
         setShowResults(true);
       })
       .catch((err) => {
